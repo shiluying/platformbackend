@@ -14,6 +14,9 @@ public class User {
     private int user_id;
     private String name;
     private String pwd;
+    private int type;
+    private int examine;
+
 
     public int getUser_id() {
         return user_id;
@@ -37,5 +40,21 @@ public class User {
 
     public void setPwd(String pwd) {
         this.pwd = pwd;
+    }
+
+    public int getType(){
+        return type;
+    }
+
+    public void setType(int type){
+        this.type=type;
+    }
+
+    public int getExamine(){
+        return examine;
+    }
+
+    public void setExamine(int examine){
+        this.examine=examine;
     }
 }
