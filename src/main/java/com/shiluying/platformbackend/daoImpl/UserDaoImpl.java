@@ -1,7 +1,6 @@
 package com.shiluying.platformbackend.daoImpl;
 
 import com.shiluying.platformbackend.dao.UserDao;
-import com.shiluying.platformbackend.entity.Good;
 import com.shiluying.platformbackend.entity.User;
 import com.shiluying.platformbackend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

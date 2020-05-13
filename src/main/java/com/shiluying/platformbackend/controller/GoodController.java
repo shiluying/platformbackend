@@ -19,6 +19,11 @@ public class GoodController {
         return goodService.findGoodById(id);
     }
 
+    @GetMapping(value = "/findGood")
+    public List<Good> findGood() {
+        return goodService.findAllGood();
+    }
+
     @GetMapping(value = "/checkGood/{state}")
     public List<Good> checkGood(@PathVariable("state") Integer state) {
         return goodService.checkGood(state);
