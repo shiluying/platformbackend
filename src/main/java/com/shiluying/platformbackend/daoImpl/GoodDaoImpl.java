@@ -16,7 +16,14 @@ public class GoodDaoImpl implements GoodDao {
 
     @Override
     public Good findOne(Integer id) {
-        return goodRepository.getOne(id);
+        Good good;
+        try{
+            good=goodRepository.getOne(id);
+        }catch (Exception e){
+            System.out.println("can not find good by id");
+           good=null;
+        }
+        return good;
     }
 
     @Override
@@ -25,7 +32,22 @@ public class GoodDaoImpl implements GoodDao {
     }
 
     @Override
-    public void changeGoodState(Integer id, Integer state) {
-        goodRepository.updateStateById(id,state);
+    public List<Good> findAllByState(Integer state) {
+        return goodRepository.findAllByState(state);
+    }
+
+    @Override
+    public List<Good> findAllByUserId(Integer user_id) {
+        return goodRepository.findAllByUserId(user_id);
+    }
+
+    @Override
+    public int changeGoodState(Integer id, Integer state) {
+        return goodRepository.updateStateById(id,state);
+    }
+
+    @Override
+    public Good addGood(Good good) {
+        return goodRepository.save(good);
     }
 }

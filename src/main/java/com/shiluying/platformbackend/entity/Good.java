@@ -10,10 +10,10 @@ import javax.persistence.Id;
 @Proxy(lazy = false)
 public class Good {
     @Id
-    @GeneratedValue
+//    @GeneratedValue
     private int good_id;
     private int state;
-    private String describe;
+    private String good_describe;
     private float price;
     private int user_id;
 
@@ -33,12 +33,12 @@ public class Good {
         this.state = state;
     }
 
-    public String getDescribe() {
-        return describe;
+    public String getGood_describe() {
+        return good_describe;
     }
 
-    public void setDescribe(String describe) {
-        this.describe = describe;
+    public void setGood_describe(String good_describe) {
+        this.good_describe = good_describe;
     }
 
     //photo

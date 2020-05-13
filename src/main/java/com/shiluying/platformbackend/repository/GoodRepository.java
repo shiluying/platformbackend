@@ -7,11 +7,20 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 public interface GoodRepository extends JpaRepository<Good, Integer> {
 
     @Transactional
     @Modifying
     @Query(value = "update good set state= :state where good_id= :id",nativeQuery = true)
-    void updateStateById(@Param("id") Integer id,@Param("state") Integer state);
+    int updateStateById(@Param("id") Integer id,@Param("state") Integer state);
+
+
+    @Query(value = "select * from good where state= :state",nativeQuery = true)
+    List<Good> findAllByState(@Param("state") Integer state);
+
+    @Query(value = "select * from good where user_id= :user_id",nativeQuery = true)
+    List<Good> findAllByUserId(@Param("user_id") Integer user_id);
+
 }
