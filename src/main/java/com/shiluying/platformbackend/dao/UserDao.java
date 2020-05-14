@@ -7,8 +7,9 @@ import java.util.List;
 public interface UserDao {
     User findOne(Integer id);
     List<User> findAll();
-    void changeUserType(Integer id, Integer type);
-    void changeUserExamine(Integer id, Integer examine);
-    void addUser(User user);
+    int changeUserType(Integer id, Integer type);
+    int changeUserExamine(Integer id, Integer examine);
+    User addUser(User user);
+    List<User> checkUser(Integer id,String pwd);
     void deleteUser(Integer id);
 }

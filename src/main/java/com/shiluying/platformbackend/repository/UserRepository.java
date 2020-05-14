@@ -7,17 +7,21 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 public interface UserRepository extends JpaRepository<User, Integer> {
 
     @Transactional
     @Modifying
     @Query(value = "update user set type= :type where user_id= :id",nativeQuery = true)
-    void updateTypeById(@Param("id") Integer id, @Param("type") Integer type);
+    int updateTypeById(@Param("id") Integer id, @Param("type") Integer type);
 
     @Transactional
     @Modifying
     @Query(value = "update user set examine= :examine where user_id= :id",nativeQuery = true)
-    void updateExamineById(@Param("id") Integer id,@Param("examine") Integer examine);
+    int updateExamineById(@Param("id") Integer id,@Param("examine") Integer examine);
+
+    @Query(value = "select * from user where user_id= :user_id and pwd= :pwd",nativeQuery = true)
+    List<User> checkUser(@Param("user_id") Integer user_id,@Param("pwd") String pwd);
 
 }

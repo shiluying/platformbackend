@@ -6,11 +6,7 @@ import com.shiluying.platformbackend.entity.Good;
 import com.shiluying.platformbackend.service.GoodService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class GoodServiceImpl implements GoodService {
@@ -21,10 +17,11 @@ public class GoodServiceImpl implements GoodService {
     public ServerResponse findGoodById(Integer id) {
         ServerResponse serverResponse;
         Good good=goodDao.findOne(id);
-        if(good==null){
-            serverResponse=ServerResponse.createByErrorMessage("商品不存在");
-        }else{
+        if(good!=null){
             serverResponse=ServerResponse.createBySuccess("商品存在",good);
+
+        }else{
+            serverResponse=ServerResponse.createByErrorMessage("商品不存在");
         }
         return serverResponse;
     }
@@ -54,7 +51,7 @@ public class GoodServiceImpl implements GoodService {
         }else if(serverResponse.getStatus()==200) {// 商品存在， 修改商品状态
            int code= goodDao.changeGoodState(id,state);
            if(code==1){
-               serverResponse=ServerResponse.createBySuccessMessage("商品状态修改成功");
+               serverResponse=ServerResponse.createBySuccess("商品状态修改成功",serverResponse.getData());
            }else{
                serverResponse=ServerResponse.createByErrorMessage("商品状态修改失败");
            }

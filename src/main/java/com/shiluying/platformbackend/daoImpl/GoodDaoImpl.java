@@ -21,7 +21,7 @@ public class GoodDaoImpl implements GoodDao {
             good=goodRepository.getOne(id);
         }catch (Exception e){
             System.out.println("can not find good by id");
-           good=null;
+            good=null;
         }
         return good;
     }

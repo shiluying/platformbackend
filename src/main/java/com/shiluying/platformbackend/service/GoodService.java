@@ -1,9 +1,6 @@
 package com.shiluying.platformbackend.service;
 
 import com.shiluying.platformbackend.Response.ServerResponse;
-import com.shiluying.platformbackend.entity.Good;
-
-import java.util.List;
 
 public interface GoodService {
     ServerResponse findGoodById(Integer id);

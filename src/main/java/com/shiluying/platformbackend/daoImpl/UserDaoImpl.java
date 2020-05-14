@@ -25,22 +25,27 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public void changeUserType(Integer id, Integer type) {
-        userRepository.updateTypeById(id,type);
+    public int changeUserType(Integer id, Integer type) {
+        return userRepository.updateTypeById(id,type);
     }
 
     @Override
-    public void changeUserExamine(Integer id, Integer examine) {
-        userRepository.updateExamineById(id,examine);
+    public int changeUserExamine(Integer id, Integer examine) {
+        return userRepository.updateExamineById(id,examine);
     }
 
     @Override
-    public void addUser(User user) {
-        userRepository.save(user);
+    public User addUser(User user) {
+        return userRepository.save(user);
     }
 
     @Override
     public void deleteUser(Integer id) {
         userRepository.deleteById(id);
+    }
+
+    @Override
+    public List<User> checkUser(Integer id,String pwd) {
+        return userRepository.checkUser(id,pwd);
     }
 }
