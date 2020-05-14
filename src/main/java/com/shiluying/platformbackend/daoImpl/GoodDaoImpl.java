@@ -47,6 +47,11 @@ public class GoodDaoImpl implements GoodDao {
     }
 
     @Override
+    public int changeGood(Integer id, Integer state, String good_describe, float price) {
+        return goodRepository.updateGood(id,state,good_describe,price);
+    }
+
+    @Override
     public Good addGood(Good good) {
         return goodRepository.save(good);
     }

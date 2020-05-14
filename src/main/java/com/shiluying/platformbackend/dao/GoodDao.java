@@ -12,4 +12,5 @@ public interface GoodDao {
     int changeGoodState(Integer id, Integer state);
     Good addGood(Good good);
     List<Good> findAllByUserId(Integer user_id);
+    int changeGood(Integer id, Integer state, String good_describe, float price);
 }

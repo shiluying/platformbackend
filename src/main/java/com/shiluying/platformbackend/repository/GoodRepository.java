@@ -16,11 +16,16 @@ public interface GoodRepository extends JpaRepository<Good, Integer> {
     @Query(value = "update good set state= :state where good_id= :id",nativeQuery = true)
     int updateStateById(@Param("id") Integer id,@Param("state") Integer state);
 
+    @Transactional
+    @Modifying
+    @Query(value = "update good set state= :state, good_describe=:good_describe, price=:price where good_id= :id",nativeQuery = true)
+    int updateGood(Integer id, Integer state, String good_describe, float price);
 
     @Query(value = "select * from good where state= :state",nativeQuery = true)
     List<Good> findAllByState(@Param("state") Integer state);
 
     @Query(value = "select * from good where user_id= :user_id",nativeQuery = true)
     List<Good> findAllByUserId(@Param("user_id") Integer user_id);
+
 
 }

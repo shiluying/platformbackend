@@ -1,14 +1,12 @@
 package com.shiluying.platformbackend.controller;
 
 import com.shiluying.platformbackend.Response.ServerResponse;
-import com.shiluying.platformbackend.entity.Good;
 import com.shiluying.platformbackend.service.GoodService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
 
 @RestController
 public class GoodController {
@@ -45,10 +43,17 @@ public class GoodController {
         return goodService.changeGoodState(id,state);
     }
 
-//    添加商品，默认state为0
-    @GetMapping(value = "/addGood/{id}/{good_describe}/{price}/{user_id}")
-    public ServerResponse addGood(@PathVariable("id") Integer id, @PathVariable("good_describe") String good_describe,
+//    添加商品
+    @GetMapping(value = "/addGood/{good_describe}/{price}/{user_id}")
+    public ServerResponse addGood( @PathVariable("good_describe") String good_describe,
                                   @PathVariable("price") float price, @PathVariable("user_id") Integer user_id) {
-        return goodService.addGood(id,good_describe,price,user_id);
+        return goodService.addGood(good_describe,price,user_id);
+    }
+
+//    修改商品
+    @GetMapping(value = "/changeGood/{id}/{state}/{good_describe}/{price}")
+    public ServerResponse changeGood(@PathVariable("id") Integer id,@PathVariable("state") Integer state,
+                                     @PathVariable String good_describe,@PathVariable("price") float price) {
+        return goodService.changeGood(id,state,good_describe,price);
     }
 }

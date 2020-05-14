@@ -65,10 +65,29 @@ public class GoodServiceImpl implements GoodService {
     }
 
     @Override
-    public ServerResponse addGood(Integer id, String good_describe, float price, Integer user_id) {
+    public ServerResponse changeGood(Integer id, Integer state, String good_describe, float price) {
+        ServerResponse serverResponse;
+//        确认商品是否存在
+        serverResponse=findGoodById(id);
+        if(serverResponse.getStatus()==500){// 商品不存在
+            return serverResponse;
+        }else if(serverResponse.getStatus()==200) {// 商品存在， 修改商品
+            int code= goodDao.changeGood(id,state,good_describe,price);
+            if(code==1){
+                serverResponse=ServerResponse.createBySuccessMessage("商品修改成功");
+            }else{
+                serverResponse=ServerResponse.createByErrorMessage("商品修改失败");
+            }
+        }else{
+            serverResponse=ServerResponse.createByError();
+        }
+        return serverResponse;
+    }
+
+    @Override
+    public ServerResponse addGood(String good_describe, float price, Integer user_id) {
         ServerResponse serverResponse;
         Good good=new Good();
-        good.setGood_id(id);
         good.setGood_describe(good_describe);
         good.setPrice(price);
         good.setUser_id(user_id);

@@ -10,7 +10,7 @@ import javax.persistence.Id;
 @Proxy(lazy = false)
 public class Good {
     @Id
-//    @GeneratedValue
+    @GeneratedValue
     private int good_id;
     private int state;
     private String good_describe;
