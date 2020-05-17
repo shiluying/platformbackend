@@ -5,7 +5,11 @@ import com.shiluying.platformbackend.service.GoodService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 
 @RestController
@@ -55,5 +59,20 @@ public class GoodController {
     public ServerResponse changeGood(@PathVariable("id") Integer id,@PathVariable("state") Integer state,
                                      @PathVariable String good_describe,@PathVariable("price") float price) {
         return goodService.changeGood(id,state,good_describe,price);
+    }
+
+//    上传图片
+    @RequestMapping("/upLoadImg")
+    public ServerResponse upLoadImg(@PathVariable("file") MultipartFile file) throws IOException {
+        if(!file.isEmpty()){
+            return goodService.upLoadImg(file);
+        }
+       return null;
+    }
+
+//    购买商品
+    @GetMapping(value = "/buyGood/{id}")
+    public ServerResponse buyGood(@PathVariable("id") Integer id) {
+        return goodService.buyGood(id);
     }
 }

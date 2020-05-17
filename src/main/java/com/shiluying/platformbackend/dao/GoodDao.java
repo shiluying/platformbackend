@@ -3,7 +3,6 @@ package com.shiluying.platformbackend.dao;
 import com.shiluying.platformbackend.entity.Good;
 
 import java.util.List;
-import java.util.Map;
 
 public interface GoodDao {
     Good findOne(Integer id);

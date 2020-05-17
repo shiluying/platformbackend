@@ -4,8 +4,12 @@ import com.shiluying.platformbackend.Response.ServerResponse;
 import com.shiluying.platformbackend.dao.GoodDao;
 import com.shiluying.platformbackend.entity.Good;
 import com.shiluying.platformbackend.service.GoodService;
+import com.shiluying.platformbackend.util.ImageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -24,6 +28,16 @@ public class GoodServiceImpl implements GoodService {
             serverResponse=ServerResponse.createByErrorMessage("商品不存在");
         }
         return serverResponse;
+    }
+//    确认商品状态
+    @Override
+    public int findGoodStateById(Integer id){
+        Good good=goodDao.findOne(id);
+        if(good!=null){
+            return good.getState();
+        }else{
+            return -1;
+        }
     }
 
     @Override
@@ -102,6 +116,32 @@ public class GoodServiceImpl implements GoodService {
         ServerResponse serverResponse;
         List<Good> goodList =goodDao.findAllByUserId(user_id);
         serverResponse=ServerResponse.createBySuccess(goodList);
+        return serverResponse;
+    }
+
+    @Override
+    public ServerResponse upLoadImg(MultipartFile multipartFile) throws IOException {
+        ServerResponse serverResponse;
+        ImageUtil imageUtil = new ImageUtil();
+        String path = imageUtil.uploadImg(multipartFile,imageUtil.COMMODITY_IMG);
+        serverResponse=ServerResponse.createBySuccess(path);
+        return serverResponse;
+    }
+
+    @Override
+    public ServerResponse buyGood(Integer id) {
+        ServerResponse serverResponse;
+        Good good =goodDao.findOne(id);
+//        商品已被锁定，不能购买
+        if(good.getState()==2){
+            serverResponse=ServerResponse.createByErrorMessage("商品已被锁定，不能购买");
+        }else if(good.getState()==1){
+//            修改商品状态
+//            。。。。
+            serverResponse=ServerResponse.createBySuccess("商品锁定成功,请确认支付",good);
+        }else{
+            serverResponse=ServerResponse.createByError();
+        }
         return serverResponse;
     }
 }

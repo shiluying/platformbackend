@@ -5,6 +5,7 @@ import com.shiluying.platformbackend.entity.Good;
 import com.shiluying.platformbackend.repository.GoodRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 

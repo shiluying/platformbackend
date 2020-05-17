@@ -13,6 +13,7 @@ public class Good {
     @GeneratedValue
     private int good_id;
     private int state;
+    private String photo;
     private String good_describe;
     private float price;
     private int user_id;
@@ -41,7 +42,13 @@ public class Good {
         this.good_describe = good_describe;
     }
 
-    //photo
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
 
     public float getPrice() {
         return price;
