@@ -10,7 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class GoodServiceImpl implements GoodService {
@@ -76,14 +78,14 @@ public class GoodServiceImpl implements GoodService {
     }
 
     @Override
-    public ServerResponse changeGood(Integer id, Integer state, String good_describe, float price) {
+    public ServerResponse changeGood(Integer id, Integer state,String photo, String good_describe, float price) {
         ServerResponse serverResponse;
 //        确认商品是否存在
         serverResponse=findGoodById(id);
         if(serverResponse.getStatus()==500){// 商品不存在
             return serverResponse;
         }else if(serverResponse.getStatus()==200) {// 商品存在， 修改商品
-            int code= goodDao.changeGood(id,state,good_describe,price);
+            int code= goodDao.changeGood(id,state,photo,good_describe,price);
             if(code==1){
                 serverResponse=ServerResponse.createBySuccessMessage("商品修改成功");
             }else{
@@ -96,10 +98,11 @@ public class GoodServiceImpl implements GoodService {
     }
 
     @Override
-    public ServerResponse addGood(String good_describe, float price, Integer user_id) {
+    public ServerResponse addGood(String good_describe,String photo, float price, Integer user_id) {
         ServerResponse serverResponse;
         Good good=new Good();
         good.setGood_describe(good_describe);
+        good.setPhoto(photo);
         good.setPrice(price);
         good.setUser_id(user_id);
         Good good_info=goodDao.addGood(good);
@@ -124,7 +127,11 @@ public class GoodServiceImpl implements GoodService {
         ServerResponse serverResponse;
         ImageUtil imageUtil = new ImageUtil();
         String path = imageUtil.uploadImg(multipartFile,imageUtil.COMMODITY_IMG);
-        serverResponse=ServerResponse.createBySuccess(path);
+        String filename = multipartFile.getOriginalFilename();
+        Map dict = new HashMap();
+        dict.put("name",filename);
+        dict.put("url",path);
+        serverResponse=ServerResponse.createBySuccess(dict);
         return serverResponse;
     }
 
@@ -139,6 +146,20 @@ public class GoodServiceImpl implements GoodService {
 //            修改商品状态
 //            。。。。
             serverResponse=ServerResponse.createBySuccess("商品锁定成功,请确认支付",good);
+        }else{
+            serverResponse=ServerResponse.createByError();
+        }
+        return serverResponse;
+    }
+
+    @Override
+    public ServerResponse deleteGood(Integer id) {
+        goodDao.deleteGood(id);
+        ServerResponse serverResponse=findGoodById(id);
+        if(serverResponse.getStatus()==500){// 商品不存在
+            serverResponse=ServerResponse.createBySuccessMessage("商品删除成功");
+        }else if(serverResponse.getStatus()==200) {// 商品存在
+            serverResponse=ServerResponse.createByErrorMessage("商品删除失败");
         }else{
             serverResponse=ServerResponse.createByError();
         }

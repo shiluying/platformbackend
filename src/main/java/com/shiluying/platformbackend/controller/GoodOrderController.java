@@ -22,9 +22,10 @@ public class GoodOrderController {
     @RequestMapping(value = "/addOrder",method = RequestMethod.GET)
     public ServerResponse addOrder(@RequestParam("buyer_id") int buyer_id,
                                    @RequestParam("seller_id") int seller_id,
-                                   @RequestParam("good_id") int good_id
+                                   @RequestParam("good_id") int good_id,
+                                   @RequestParam("price") float price
                                    ) {
-        return goodOrderService.addOrder(buyer_id,seller_id,good_id);
+        return goodOrderService.addOrder(buyer_id,seller_id,good_id,price);
     }
 //    取消订单
     @RequestMapping(value = "/cancelOrder",method = RequestMethod.GET)

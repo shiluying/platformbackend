@@ -3,10 +3,7 @@ package com.shiluying.platformbackend.controller;
 import com.shiluying.platformbackend.Response.ServerResponse;
 import com.shiluying.platformbackend.service.GoodService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -48,17 +45,22 @@ public class GoodController {
     }
 
 //    添加商品
-    @GetMapping(value = "/addGood/{good_describe}/{price}/{user_id}")
-    public ServerResponse addGood( @PathVariable("good_describe") String good_describe,
-                                  @PathVariable("price") float price, @PathVariable("user_id") Integer user_id) {
-        return goodService.addGood(good_describe,price,user_id);
+    @RequestMapping(value = "/addGood",method = RequestMethod.GET)
+    public ServerResponse addGood( @RequestParam("good_describe") String good_describe,
+                                  @RequestParam("photo") String photo,
+                                  @RequestParam("price") float price,
+                                   @RequestParam("user_id") Integer user_id) {
+        return goodService.addGood(good_describe,photo,price,user_id);
     }
 
 //    修改商品
-    @GetMapping(value = "/changeGood/{id}/{state}/{good_describe}/{price}")
-    public ServerResponse changeGood(@PathVariable("id") Integer id,@PathVariable("state") Integer state,
-                                     @PathVariable String good_describe,@PathVariable("price") float price) {
-        return goodService.changeGood(id,state,good_describe,price);
+    @RequestMapping(value = "/changeGood",method = RequestMethod.GET)
+    public ServerResponse changeGood(@RequestParam("id") Integer id,
+                                     @RequestParam("state") Integer state,
+                                     @RequestParam String photo,
+                                     @RequestParam String good_describe,
+                                     @RequestParam("price") float price) {
+        return goodService.changeGood(id,state,photo,good_describe,price);
     }
 
 //    上传图片
@@ -74,5 +76,11 @@ public class GoodController {
     @GetMapping(value = "/buyGood/{id}")
     public ServerResponse buyGood(@PathVariable("id") Integer id) {
         return goodService.buyGood(id);
+    }
+
+//    删除商品
+    @RequestMapping(value = "/deleteGood",method = RequestMethod.GET)
+    public ServerResponse deleteGood(@RequestParam("id") Integer id) {
+        return goodService.deleteGood(id);
     }
 }

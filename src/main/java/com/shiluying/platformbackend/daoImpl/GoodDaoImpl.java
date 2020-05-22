@@ -5,7 +5,6 @@ import com.shiluying.platformbackend.entity.Good;
 import com.shiluying.platformbackend.repository.GoodRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -14,6 +13,11 @@ public class GoodDaoImpl implements GoodDao {
     @Autowired
     private GoodRepository goodRepository;
 
+
+    @Override
+    public void deleteGood(Integer id) {
+        goodRepository.deleteById(id);
+    }
 
     @Override
     public Good findOne(Integer id) {
@@ -48,8 +52,8 @@ public class GoodDaoImpl implements GoodDao {
     }
 
     @Override
-    public int changeGood(Integer id, Integer state, String good_describe, float price) {
-        return goodRepository.updateGood(id,state,good_describe,price);
+    public int changeGood(Integer id, Integer state,String photo, String good_describe, float price) {
+        return goodRepository.updateGood(id,state,photo,good_describe,price);
     }
 
     @Override

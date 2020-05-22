@@ -31,20 +31,18 @@ public class GoodOrderServiceImpl implements GoodOrderService {
     }
 
     @Override
-    public ServerResponse addOrder(int buyer_id, int seller_id, int good_id) {
+    public ServerResponse addOrder(int buyer_id, int seller_id, int good_id, float price) {
         ServerResponse serverResponse;
 //        确认当前商品状态为已发布
-        GoodService goodService = new GoodServiceImpl();
-        int good_state = goodService.findGoodStateById(good_id);
-        if(good_state==-1){
-            serverResponse = ServerResponse.createByErrorMessage("商品不存在");
-        }else if(good_state==1){
-//            锁定商品
-            goodService.changeGoodState(good_id,2);
+//        int good_state = goodService.findGoodStateById(good_id);
+//        if(good_state==-1){
+//            serverResponse = ServerResponse.createByErrorMessage("商品不存在");
+//        }else if(good_state==1){
             GoodOrder goodOrder = new GoodOrder();
             goodOrder.setBuyer_id(buyer_id);
             goodOrder.setGood_id(good_id);
             goodOrder.setSeller_id(seller_id);
+            goodOrder.setPrice(price);
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置时间格式
             goodOrder.setTime(df.format(new Date()));
             goodOrder.setState(0);//state:0 未付款
@@ -54,12 +52,12 @@ public class GoodOrderServiceImpl implements GoodOrderService {
                 serverResponse = ServerResponse.createBySuccess("订单创建成功", goodOrderInfo);
             }else {
 //                取消锁定
-                goodService.changeGoodState(good_id,1);
+//                goodService.changeGoodState(good_id,1);
                 serverResponse = ServerResponse.createByErrorMessage("订单创建失败");
             }
-        }else{
-            serverResponse = ServerResponse.createByError();
-        }
+//        }else{
+//            serverResponse = ServerResponse.createByError();
+//        }
         return serverResponse;
     }
 
@@ -87,12 +85,8 @@ public class GoodOrderServiceImpl implements GoodOrderService {
     public ServerResponse cancelOrder(int order_id) {
         ServerResponse serverResponse;
         GoodOrder goodOrder= findOne(order_id);
-        GoodService goodService = new GoodServiceImpl();
-//        订单存在， 修改商品状态
-        goodService.changeGoodState(goodOrder.getGood_id(),1);
-        GoodOrder goodOrderInfo= findOne(order_id);
         goodOrderDao.cancelOrder(goodOrder);
-        if(goodOrderInfo!=null){
+        if(goodOrder!=null){
             serverResponse=ServerResponse.createBySuccess("订单取消成功");
         }else{
             serverResponse=ServerResponse.createByErrorMessage("订单取消失败");

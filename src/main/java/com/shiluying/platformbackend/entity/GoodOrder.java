@@ -24,6 +24,8 @@ public class GoodOrder {
     private int seller_id;
     @NotNull
     private int state;
+    @NotNull
+    private float price;
 
     public void setGood_id(int good_id) {
         this.good_id = good_id;
@@ -72,4 +74,13 @@ public class GoodOrder {
     public int getState() {
         return state;
     }
+
+    public void setPrice(float price) {
+        this.price = price;
+    }
+
+    public float getPrice() {
+        return price;
+    }
 }
+

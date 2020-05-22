@@ -8,7 +8,7 @@ public interface GoodOrderService {
 
     ServerResponse getGoodOrderById(int user_id);
 
-    ServerResponse addOrder(int buyer_id, int seller_id, int good_id);
+    ServerResponse addOrder(int buyer_id, int seller_id, int good_id, float price);
 
     ServerResponse updateOrderStateById(int order_id, int state);
 
