@@ -38,4 +38,9 @@ public class GoodOrderDaoImpl implements GoodOrderDao {
     public GoodOrder findOne(int order_id) {
         return goodOrderRepository.getOne(order_id);
     }
+
+    @Override
+    public int updateOrderInfoById(int order_id, int state, String place, String date) {
+        return goodOrderRepository.updateOrderInfoById(order_id,state,place,date);
+    }
 }

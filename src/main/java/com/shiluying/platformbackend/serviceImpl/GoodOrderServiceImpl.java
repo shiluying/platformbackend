@@ -4,7 +4,6 @@ import com.shiluying.platformbackend.Response.ServerResponse;
 import com.shiluying.platformbackend.dao.GoodOrderDao;
 import com.shiluying.platformbackend.entity.GoodOrder;
 import com.shiluying.platformbackend.service.GoodOrderService;
-import com.shiluying.platformbackend.service.GoodService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -90,6 +89,26 @@ public class GoodOrderServiceImpl implements GoodOrderService {
             serverResponse=ServerResponse.createBySuccess("订单取消成功");
         }else{
             serverResponse=ServerResponse.createByErrorMessage("订单取消失败");
+        }
+        return serverResponse;
+    }
+
+    @Override
+    public ServerResponse confirmOrder(int order_id, int state, String place, String date) {
+        ServerResponse serverResponse;
+//        确认订单是否存在
+        serverResponse=getGoodOrderById(order_id);
+        if(serverResponse.getStatus()==500){// 订单不存在
+            return serverResponse;
+        }else if(serverResponse.getStatus()==200) {// 订单存在， 修改订单状态
+            int code= goodOrderDao.updateOrderInfoById(order_id,state,place,date);
+            if(code==1){
+                serverResponse=ServerResponse.createBySuccess("订单状态修改成功",serverResponse.getData());
+            }else{
+                serverResponse=ServerResponse.createByErrorMessage("订单状态修改失败");
+            }
+        }else{
+            serverResponse=ServerResponse.createByError();
         }
         return serverResponse;
     }

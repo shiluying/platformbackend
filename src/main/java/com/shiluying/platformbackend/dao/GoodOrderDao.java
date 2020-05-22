@@ -15,4 +15,6 @@ public interface GoodOrderDao {
     void cancelOrder(GoodOrder goodOrder);
 
     GoodOrder findOne(int order_id);
+
+    int updateOrderInfoById(int order_id, int state, String place, String date);
 }

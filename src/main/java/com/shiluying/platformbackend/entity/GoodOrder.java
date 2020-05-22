@@ -27,6 +27,9 @@ public class GoodOrder {
     @NotNull
     private float price;
 
+    private String date;
+    private String place;
+
     public void setGood_id(int good_id) {
         this.good_id = good_id;
     }
@@ -81,6 +84,22 @@ public class GoodOrder {
 
     public float getPrice() {
         return price;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setPlace(String place) {
+        this.place = place;
+    }
+
+    public String getPlace() {
+        return place;
     }
 }
 

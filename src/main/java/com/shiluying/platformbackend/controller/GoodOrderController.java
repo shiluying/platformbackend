@@ -38,4 +38,12 @@ public class GoodOrderController {
                                                @RequestParam("state") int state) {
         return goodOrderService.updateOrderStateById(order_id,state);
     }
+//    确认订单
+    @RequestMapping(value = "/confirmOrder",method = RequestMethod.GET)
+    public ServerResponse confirmOrder(@RequestParam("order_id") int order_id,
+                                               @RequestParam("state") int state,
+                                               @RequestParam("place") String place,
+                                               @RequestParam("date") String date) {
+        return goodOrderService.confirmOrder(order_id,state,place,date);
+    }
 }

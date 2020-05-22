@@ -18,4 +18,9 @@ public interface GoodOrderRepository extends JpaRepository<GoodOrder, Integer> {
     @Modifying
     @Query(value = "update good_order set state= :state where order_id= :order_id",nativeQuery = true)
     int updateStateById(@Param("order_id") Integer id, @Param("state") Integer state);
+
+    @Transactional
+    @Modifying
+    @Query(value = "update good_order set state= :state, place= :place, date= :date where order_id= :order_id",nativeQuery = true)
+    int updateOrderInfoById(@Param("order_id") Integer id, @Param("state") Integer state, @Param("place") String place, @Param("date") String date);
 }

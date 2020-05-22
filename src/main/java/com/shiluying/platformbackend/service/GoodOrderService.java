@@ -13,4 +13,6 @@ public interface GoodOrderService {
     ServerResponse updateOrderStateById(int order_id, int state);
 
     ServerResponse cancelOrder(int order_id);
+
+    ServerResponse confirmOrder(int order_id, int state, String place, String date);
 }
