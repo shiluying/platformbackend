@@ -7,14 +7,18 @@ import java.io.IOException;
 
 public interface GoodService {
 
-    int findGoodStateById(Integer id);
-
     ServerResponse findAllGood();
-    ServerResponse findAllByState(Integer state);
+
+    ServerResponse findGoodByState(Integer state);
+
     ServerResponse changeGoodState(Integer id, Integer state);
+
     ServerResponse changeGood(Integer id,Integer state,String photo,String good_describe,float price);
+
     ServerResponse addGood(String good_describe,String photo,float price,Integer user_id);
-    ServerResponse findAllByUserId(Integer user_id);
+
+    ServerResponse findGoodByUserId(Integer user_id);
+
     ServerResponse upLoadImg(MultipartFile multipartFile) throws IOException;
 
     ServerResponse buyGood(Integer id);

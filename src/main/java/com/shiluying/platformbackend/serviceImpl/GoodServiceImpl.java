@@ -31,16 +31,6 @@ public class GoodServiceImpl implements GoodService {
         }
         return serverResponse;
     }
-//    确认商品状态
-    @Override
-    public int findGoodStateById(Integer id){
-        Good good=goodDao.findOne(id);
-        if(good!=null){
-            return good.getState();
-        }else{
-            return -1;
-        }
-    }
 
     @Override
     public ServerResponse findAllGood() {
@@ -51,7 +41,7 @@ public class GoodServiceImpl implements GoodService {
     }
 
     @Override
-    public ServerResponse findAllByState(Integer state) {
+    public ServerResponse findGoodByState(Integer state) {
         ServerResponse serverResponse;
         List<Good> goodList =goodDao.findAllByState(state);
         serverResponse=ServerResponse.createBySuccess(goodList);
@@ -65,12 +55,24 @@ public class GoodServiceImpl implements GoodService {
         if(serverResponse.getStatus()==500){// 商品不存在
             return serverResponse;
         }else if(serverResponse.getStatus()==200) {// 商品存在， 修改商品状态
-           int code= goodDao.changeGoodState(id,state);
-           if(code==1){
-               serverResponse=ServerResponse.createBySuccess("商品状态修改成功",serverResponse.getData());
-           }else{
-               serverResponse=ServerResponse.createByErrorMessage("商品状态修改失败");
-           }
+            Good goodInfo = (Good)serverResponse.getData();
+            if(goodInfo.getState()==state){
+                if(state==2){
+                    serverResponse=ServerResponse.createByErrorMessage("商品已进入锁定状态");
+                }
+                else{
+                    serverResponse=ServerResponse.createByErrorMessage("商品状态未改变");
+                }
+            }
+            else{
+                int code= goodDao.changeGoodState(id,state);
+                if(code==1){
+                    serverResponse=ServerResponse.createBySuccess("商品状态修改成功",serverResponse.getData());
+                }else{
+                    serverResponse=ServerResponse.createByErrorMessage("商品状态修改失败");
+                }
+            }
+
         }else{
             serverResponse=ServerResponse.createByError();
         }
@@ -115,7 +117,7 @@ public class GoodServiceImpl implements GoodService {
     }
 
     @Override
-    public ServerResponse findAllByUserId(Integer user_id) {
+    public ServerResponse findGoodByUserId(Integer user_id) {
         ServerResponse serverResponse;
         List<Good> goodList =goodDao.findAllByUserId(user_id);
         serverResponse=ServerResponse.createBySuccess(goodList);

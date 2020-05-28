@@ -15,32 +15,33 @@ public class GoodController {
     private GoodService goodService;
 
 //    根据商品ID查找商品
-    @GetMapping(value = "/findGood/{id}")
-    public ServerResponse findGood(@PathVariable("id") Integer id) {
+    @RequestMapping(value = "/findGoodById",method = RequestMethod.GET)
+    public ServerResponse findGoodById(@RequestParam("id") Integer id) {
         return goodService.findGoodById(id);
     }
 
 //    查找所有商品
-    @GetMapping(value = "/findGood")
-    public ServerResponse findGood() {
+    @RequestMapping(value = "/findAllGood",method = RequestMethod.GET)
+    public ServerResponse findAllGood() {
         return goodService.findAllGood();
     }
 
 //    根据用户ID查找商品
-    @GetMapping(value = "/findAllByUserId/{user_id}")
-    public ServerResponse findAllByUserId(@PathVariable("user_id") Integer user_id) {
-        return goodService.findAllByUserId(user_id);
+    @RequestMapping(value = "/findGoodByUserId",method = RequestMethod.GET)
+    public ServerResponse findGoodByUserId(@RequestParam("user_id") Integer user_id) {
+        return goodService.findGoodByUserId(user_id);
     }
 
 //    查找处于某种状态的商品（商品审核）
-    @GetMapping(value = "/findAllByState/{state}")
-    public ServerResponse findAllByState(@PathVariable("state") Integer state) {
-        return goodService.findAllByState(state);
+    @RequestMapping(value = "/findGoodByState",method = RequestMethod.GET)
+    public ServerResponse findGoodByState(@RequestParam("state") Integer state) {
+        return goodService.findGoodByState(state);
     }
 
 //    修改某商品的状态
-    @GetMapping(value = "/changeGoodState/{id}/{state}")
-    public ServerResponse changeGoodState(@PathVariable("id") Integer id,@PathVariable("state") Integer state) {
+    @RequestMapping(value = "/changeGoodState",method = RequestMethod.GET)
+    public ServerResponse changeGoodState(@RequestParam("id") Integer id,
+                                          @RequestParam("state") Integer state) {
         return goodService.changeGoodState(id,state);
     }
 
@@ -73,8 +74,8 @@ public class GoodController {
     }
 
 //    购买商品
-    @GetMapping(value = "/buyGood/{id}")
-    public ServerResponse buyGood(@PathVariable("id") Integer id) {
+    @RequestMapping(value = "/buyGood",method = RequestMethod.GET)
+    public ServerResponse buyGood(@RequestParam("id") Integer id) {
         return goodService.buyGood(id);
     }
 

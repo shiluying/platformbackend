@@ -7,7 +7,7 @@ public interface UserService {
     ServerResponse findAllUser();
     ServerResponse checkUser(Integer id,String pwd);
     ServerResponse changeUserType(Integer id,Integer type);
-    ServerResponse changeUserExamine(Integer id,Integer examine);
+    ServerResponse changeUserExamineById(Integer id,Integer examine);
     ServerResponse addUser(Integer id,String name,String pwd,Integer type,Integer examine);
     ServerResponse deleteUser(Integer id);
 }

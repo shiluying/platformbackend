@@ -13,37 +13,31 @@ public class GoodOrderController {
 
     @Autowired
     private GoodOrderService goodOrderService;
-//    查询订单
-    @RequestMapping(value = "/getGoodOrderById",method = RequestMethod.GET)
-    public ServerResponse getGoodOrderById(@RequestParam("user_id") int user_id) {
-        return goodOrderService.getGoodOrderById(user_id);
+//    根据user_id查询订单
+    @RequestMapping(value = "/getGoodOrderByUserId",method = RequestMethod.GET)
+    public ServerResponse getGoodOrderByUserId(@RequestParam("user_id") int user_id) {
+        return goodOrderService.getGoodOrderByUserId(user_id);
     }
 //    创建订单
     @RequestMapping(value = "/addOrder",method = RequestMethod.GET)
     public ServerResponse addOrder(@RequestParam("buyer_id") int buyer_id,
                                    @RequestParam("seller_id") int seller_id,
                                    @RequestParam("good_id") int good_id,
-                                   @RequestParam("price") float price
+                                   @RequestParam("price") float price,
+                                   @RequestParam("place") String place,
+                                   @RequestParam("date") String date
                                    ) {
-        return goodOrderService.addOrder(buyer_id,seller_id,good_id,price);
+        return goodOrderService.addOrder(buyer_id,seller_id,good_id,price,date,place);
     }
 //    取消订单
-    @RequestMapping(value = "/cancelOrder",method = RequestMethod.GET)
+    @RequestMapping(value = "/deleteOrder",method = RequestMethod.GET)
     public ServerResponse cancelOrder(@RequestParam("order_id") int order_id) {
         return goodOrderService.cancelOrder(order_id);
     }
 //    更改订单状态
-    @RequestMapping(value = "/updateOrderStateById",method = RequestMethod.GET)
+    @RequestMapping(value = "/changeOrderState",method = RequestMethod.GET)
     public ServerResponse updateOrderStateById(@RequestParam("order_id") int order_id,
                                                @RequestParam("state") int state) {
         return goodOrderService.updateOrderStateById(order_id,state);
-    }
-//    确认订单
-    @RequestMapping(value = "/confirmOrder",method = RequestMethod.GET)
-    public ServerResponse confirmOrder(@RequestParam("order_id") int order_id,
-                                               @RequestParam("state") int state,
-                                               @RequestParam("place") String place,
-                                               @RequestParam("date") String date) {
-        return goodOrderService.confirmOrder(order_id,state,place,date);
     }
 }

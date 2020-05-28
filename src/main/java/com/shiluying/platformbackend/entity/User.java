@@ -1,10 +1,13 @@
 package com.shiluying.platformbackend.entity;
 
+
 import org.hibernate.annotations.Proxy;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Proxy(lazy = false)
@@ -12,9 +15,15 @@ public class User {
     @Id
     @GeneratedValue
     private int user_id;
+    @NotNull
     private String name;
+    @NotNull
     private String pwd;
+    @NotNull
+    @Column(columnDefinition="int default 0",nullable=false)
     private int type;
+    @NotNull
+    @Column(columnDefinition="int default 0",nullable=false)
     private int examine;
 
 

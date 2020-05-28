@@ -22,7 +22,7 @@ public class GoodOrderServiceImpl implements GoodOrderService {
     }
 
     @Override
-    public ServerResponse getGoodOrderById(int user_id) {
+    public ServerResponse getGoodOrderByUserId(int user_id) {
         ServerResponse serverResponse;
         List<GoodOrder> goodOrders=goodOrderDao.findGoodOrderByUserId(user_id);
         serverResponse=ServerResponse.createBySuccess(goodOrders);
@@ -30,33 +30,25 @@ public class GoodOrderServiceImpl implements GoodOrderService {
     }
 
     @Override
-    public ServerResponse addOrder(int buyer_id, int seller_id, int good_id, float price) {
+    public ServerResponse addOrder(int buyer_id, int seller_id, int good_id, float price, String date, String place) {
         ServerResponse serverResponse;
-//        确认当前商品状态为已发布
-//        int good_state = goodService.findGoodStateById(good_id);
-//        if(good_state==-1){
-//            serverResponse = ServerResponse.createByErrorMessage("商品不存在");
-//        }else if(good_state==1){
-            GoodOrder goodOrder = new GoodOrder();
-            goodOrder.setBuyer_id(buyer_id);
-            goodOrder.setGood_id(good_id);
-            goodOrder.setSeller_id(seller_id);
-            goodOrder.setPrice(price);
-            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置时间格式
-            goodOrder.setTime(df.format(new Date()));
-            goodOrder.setState(0);//state:0 未付款
+        GoodOrder goodOrder = new GoodOrder();
+        goodOrder.setBuyer_id(buyer_id);
+        goodOrder.setGood_id(good_id);
+        goodOrder.setSeller_id(seller_id);
+        goodOrder.setPrice(price);
+        goodOrder.setPlace(place);
+        goodOrder.setDate(date);
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置时间格式
+        goodOrder.setTime(df.format(new Date()));
+        goodOrder.setState(0);//state:0 未付款
 //            创建订单
-            GoodOrder goodOrderInfo=goodOrderDao.addOrder(goodOrder);
-            if(goodOrderInfo!=null) {
-                serverResponse = ServerResponse.createBySuccess("订单创建成功", goodOrderInfo);
-            }else {
-//                取消锁定
-//                goodService.changeGoodState(good_id,1);
-                serverResponse = ServerResponse.createByErrorMessage("订单创建失败");
-            }
-//        }else{
-//            serverResponse = ServerResponse.createByError();
-//        }
+        GoodOrder goodOrderInfo=goodOrderDao.addOrder(goodOrder);
+        if(goodOrderInfo!=null) {
+            serverResponse = ServerResponse.createBySuccess("订单创建成功", goodOrderInfo);
+        }else {
+            serverResponse = ServerResponse.createByErrorMessage("订单创建失败");
+        }
         return serverResponse;
     }
 
@@ -64,7 +56,7 @@ public class GoodOrderServiceImpl implements GoodOrderService {
     public ServerResponse updateOrderStateById(int order_id, int state) {
         ServerResponse serverResponse;
 //        确认订单是否存在
-        serverResponse=getGoodOrderById(order_id);
+        serverResponse=getGoodOrderByUserId(order_id);
         if(serverResponse.getStatus()==500){// 订单不存在
             return serverResponse;
         }else if(serverResponse.getStatus()==200) {// 订单存在， 修改订单状态
@@ -89,26 +81,6 @@ public class GoodOrderServiceImpl implements GoodOrderService {
             serverResponse=ServerResponse.createBySuccess("订单取消成功");
         }else{
             serverResponse=ServerResponse.createByErrorMessage("订单取消失败");
-        }
-        return serverResponse;
-    }
-
-    @Override
-    public ServerResponse confirmOrder(int order_id, int state, String place, String date) {
-        ServerResponse serverResponse;
-//        确认订单是否存在
-        serverResponse=getGoodOrderById(order_id);
-        if(serverResponse.getStatus()==500){// 订单不存在
-            return serverResponse;
-        }else if(serverResponse.getStatus()==200) {// 订单存在， 修改订单状态
-            int code= goodOrderDao.updateOrderInfoById(order_id,state,place,date);
-            if(code==1){
-                serverResponse=ServerResponse.createBySuccess("订单状态修改成功",serverResponse.getData());
-            }else{
-                serverResponse=ServerResponse.createByErrorMessage("订单状态修改失败");
-            }
-        }else{
-            serverResponse=ServerResponse.createByError();
         }
         return serverResponse;
     }

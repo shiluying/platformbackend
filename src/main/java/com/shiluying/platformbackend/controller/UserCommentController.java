@@ -11,8 +11,8 @@ public class UserCommentController {
     private UserCommentService usercommentService;
 
 //    查找所有包含user_id的评论
-    @RequestMapping(value = "/getUserComment",method = RequestMethod.GET)
-    public ServerResponse findUserCommentById(@RequestParam("user_id") int user_id) {
+    @RequestMapping(value = "/getUserCommentByUserId",method = RequestMethod.GET)
+    public ServerResponse getUserCommentByUserId(@RequestParam("user_id") int user_id) {
         return usercommentService.findUserCommentById(user_id);
     }
 

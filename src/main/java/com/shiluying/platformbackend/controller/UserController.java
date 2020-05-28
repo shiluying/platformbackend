@@ -3,49 +3,49 @@ package com.shiluying.platformbackend.controller;
 import com.shiluying.platformbackend.Response.ServerResponse;
 import com.shiluying.platformbackend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class UserController {
     @Autowired
     private UserService userService;
-
-    @GetMapping(value = "/findUser/{id}")
-    public ServerResponse findUser(@PathVariable("id") Integer id) {
+    // 根据user_id查找用户
+    @RequestMapping(value = "/findUserById",method = RequestMethod.GET)
+    public ServerResponse findUserById(@RequestParam("id") Integer id) {
         return userService.findUserById(id);
     }
 
-    @GetMapping(value = "/findUser")
-    public ServerResponse findUser() {
+    //查找所有用户
+    @RequestMapping(value = "/findAllUser")
+    public ServerResponse findAllUser() {
         return userService.findAllUser();
     }
 
-    @GetMapping(value = "/checkUser/{id}/{pwd}")
-    public ServerResponse checkUser(@PathVariable("id") Integer id,@PathVariable("pwd") String pwd) {
+    // 确认用户存在
+    @RequestMapping(value = "/checkUser",method = RequestMethod.GET)
+    public ServerResponse checkUser(@RequestParam("id") Integer id,@RequestParam("pwd") String pwd) {
         return userService.checkUser(id,pwd);
     }
-
-    @GetMapping(value = "/changeUserType/{id}/{type}")
-    public ServerResponse changeUserType(@PathVariable("id") Integer id,@PathVariable("type") Integer type) {
+    // 修改用户类型
+    @RequestMapping(value = "/changeUserType",method = RequestMethod.GET)
+    public ServerResponse changeUserType(@RequestParam("id") Integer id,@RequestParam("type") Integer type) {
         return userService.changeUserType(id,type);
     }
-
-    @GetMapping(value = "/changeUserExamine/{id}/{examine}")
-    public ServerResponse changeUserExamine(@PathVariable("id") Integer id,@PathVariable("examine") Integer examine) {
-        return userService.changeUserExamine(id,examine);
+    // 修改用户的商品审核权限
+    @RequestMapping(value = "/changeUserExamineById",method = RequestMethod.GET)
+    public ServerResponse changeUserExamineById(@RequestParam("id") Integer id,@RequestParam("examine") Integer examine) {
+        return userService.changeUserExamineById(id,examine);
     }
-
-    @GetMapping(value = "/addUser/{id}/{name}/{pwd}/{type}/{examine}")
-    public ServerResponse addUser(@PathVariable("id") Integer id,@PathVariable("name") String name,
-                           @PathVariable("pwd") String pwd,@PathVariable("type") Integer type,
-                           @PathVariable("examine") Integer examine) {
+    // 添加用户
+    @RequestMapping(value = "/addUser",method = RequestMethod.GET)
+    public ServerResponse addUser(@RequestParam("id") Integer id,@RequestParam("name") String name,
+                           @RequestParam("pwd") String pwd,@RequestParam("type") Integer type,
+                           @RequestParam("examine") Integer examine) {
         return userService.addUser(id,name,pwd,type,examine);
     }
-
-    @GetMapping(value = "/deleteUser/{id}")
-    public ServerResponse deleteUser(@PathVariable("id") Integer id) {
+    //删除用户
+    @RequestMapping(value = "/deleteUser",method = RequestMethod.GET)
+    public ServerResponse deleteUser(@RequestParam("id") Integer id) {
         return userService.deleteUser(id);
     }
 }

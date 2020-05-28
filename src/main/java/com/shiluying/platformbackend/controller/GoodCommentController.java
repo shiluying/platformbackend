@@ -5,7 +5,6 @@ import com.shiluying.platformbackend.service.GoodCommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 
 @RestController
 public class GoodCommentController {
@@ -13,12 +12,12 @@ public class GoodCommentController {
     private GoodCommentService goodcommentService;
 
     //    查找所有包含good_id的评论
-    @RequestMapping(value = "/getGoodComment",method = RequestMethod.GET)
-    public ServerResponse findGoodCommentById(@RequestParam("good_id") int good_id) {
+    @RequestMapping(value = "/getGoodCommentByGoodId",method = RequestMethod.GET)
+    public ServerResponse getGoodCommentByGoodId(@RequestParam("good_id") int good_id) {
         return goodcommentService.findGoodCommentById(good_id);
     }
 
-    //    添加用户评论
+    //    添加商品评论
     @RequestMapping(value = "/addGoodComment",method = RequestMethod.GET)
     public ServerResponse addGoodComment(
                                          @RequestParam("comment") String comment,

@@ -2,7 +2,6 @@ package com.shiluying.platformbackend.serviceImpl;
 
 import com.shiluying.platformbackend.Response.ServerResponse;
 import com.shiluying.platformbackend.dao.UserDao;
-import com.shiluying.platformbackend.entity.Good;
 import com.shiluying.platformbackend.entity.User;
 import com.shiluying.platformbackend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,7 +68,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ServerResponse changeUserExamine(Integer id, Integer examine) {
+    public ServerResponse changeUserExamineById(Integer id, Integer examine) {
         ServerResponse serverResponse;
 //        确认用户是否存在
         serverResponse=findUserById(id);
