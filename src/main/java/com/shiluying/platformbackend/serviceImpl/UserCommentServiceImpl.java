@@ -20,9 +20,9 @@ public class UserCommentServiceImpl implements UserCommentService {
     private UserCommentDao userCommentDao;
 
     @Override
-    public ServerResponse findUserCommentById(Integer sender_id) {
+    public ServerResponse getUserCommentByReceiverId(Integer receiver_id) {
         ServerResponse serverResponse;
-        List<UserComment> userComments=userCommentDao.findCommentById(sender_id);
+        List<UserComment> userComments=userCommentDao.getUserCommentByReceiverId(receiver_id);
         serverResponse=ServerResponse.createBySuccess(userComments);
         return serverResponse;
     }

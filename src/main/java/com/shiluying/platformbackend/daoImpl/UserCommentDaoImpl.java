@@ -13,8 +13,8 @@ public class UserCommentDaoImpl implements UserCommentDao {
     private UserCommentRespository userCommentRespository;
 
     @Override
-    public List<UserComment> findCommentById(Integer sender_id) {
-        return userCommentRespository.findCommentById(sender_id);
+    public List<UserComment> getUserCommentByReceiverId(Integer receiver_id) {
+        return userCommentRespository.getUserCommentByReceiverId(receiver_id);
     }
 
     @Override

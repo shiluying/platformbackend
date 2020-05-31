@@ -1,9 +1,14 @@
 package com.shiluying.platformbackend.controller;
 
 import com.shiluying.platformbackend.Response.ServerResponse;
+import com.shiluying.platformbackend.entity.GoodComment;
+import com.shiluying.platformbackend.entity.UserComment;
 import com.shiluying.platformbackend.service.GoodCommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 
 @RestController
@@ -18,11 +23,16 @@ public class GoodCommentController {
     }
 
     //    添加商品评论
-    @RequestMapping(value = "/addGoodComment",method = RequestMethod.GET)
-    public ServerResponse addGoodComment(
-                                         @RequestParam("comment") String comment,
-                                         @RequestParam("buyer_id") int buyer_id,
-                                         @RequestParam("good_id") int good_id) {
-        return goodcommentService.addGoodComment(comment,buyer_id,good_id);
+    @RequestMapping(value = "/addGoodComment",method = RequestMethod.POST)
+    public ServerResponse addGoodComment(@RequestBody GoodComment goodComment) {
+        return goodcommentService.addGoodComment(goodComment);
+    }
+    //    上传图片
+    @RequestMapping("/upLoadGoodCommentImg")
+    public ServerResponse upLoadImg(@PathVariable("file") MultipartFile file) throws IOException {
+        if(!file.isEmpty()){
+            return goodcommentService.upLoadImg(file);
+        }
+        return null;
     }
 }

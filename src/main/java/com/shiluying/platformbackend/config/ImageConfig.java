@@ -11,5 +11,6 @@ public class ImageConfig implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/images/commodities/**").addResourceLocations("file:E:/test/commodities/");
         registry.addResourceHandler("/images/usercomment/**").addResourceLocations("file:E:/test/usercomment/");
+        registry.addResourceHandler("/images/goodcomment/**").addResourceLocations("file:E:/test/goodcomment/");
     }
 }

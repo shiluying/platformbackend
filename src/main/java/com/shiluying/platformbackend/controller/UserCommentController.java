@@ -15,9 +15,10 @@ public class UserCommentController {
     private UserCommentService usercommentService;
 
 //    查找所有包含user_id的评论
-    @RequestMapping(value = "/getUserCommentByUserId",method = RequestMethod.GET)
-    public ServerResponse getUserCommentByUserId(@RequestParam("sender_id") int sender_id) {
-        return usercommentService.findUserCommentById(sender_id);
+    @RequestMapping(value = "/getUserCommentByReceiverId",method = RequestMethod.GET)
+    public ServerResponse getUserCommentByReceiverId(@RequestParam("receiver_id") int receiver_id) {
+        System.out.println(receiver_id);
+        return usercommentService.getUserCommentByReceiverId(receiver_id);
     }
 
 //    添加用户评论
@@ -26,7 +27,7 @@ public class UserCommentController {
         return usercommentService.addUserComment(userComment);
     }
     //    上传图片
-    @RequestMapping("/upLoadUserCommenntImg")
+    @RequestMapping("/upLoadUserCommentImg")
     public ServerResponse upLoadImg(@PathVariable("file") MultipartFile file) throws IOException {
         if(!file.isEmpty()){
             return usercommentService.upLoadImg(file);

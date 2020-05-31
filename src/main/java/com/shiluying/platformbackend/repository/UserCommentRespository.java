@@ -9,6 +9,6 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface UserCommentRespository extends JpaRepository<UserComment, Integer> {
-    @Query(value = "select * from user_comment where sender_id= :sender_id",nativeQuery = true)
-    List<UserComment> findCommentById(@Param("sender_id") Integer user_id);
+    @Query(value = "select * from user_comment where receiver_id= :receiver_id",nativeQuery = true)
+    List<UserComment> getUserCommentByReceiverId(@Param("receiver_id") Integer receiver_id);
 }

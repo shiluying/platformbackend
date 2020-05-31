@@ -16,7 +16,7 @@ public class UserComment {
     private int comment_id;
     private String comment;
     @NotNull
-    private int user_id;
+    private int receiver_id;
     private String photo;
     @NotNull
     private int sender_id;
@@ -29,12 +29,12 @@ public class UserComment {
         this.sender_id = sender_id;
     }
 
-    public int getUser_id() {
-        return user_id;
+    public int getReceiver_id() {
+        return receiver_id;
     }
 
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
+    public void setReceiver_id(int receiver_id) {
+        this.receiver_id = receiver_id;
     }
 
     public void setPhoto(String photo) {
@@ -59,5 +59,16 @@ public class UserComment {
 
     public int getComment_id() {
         return comment_id;
+    }
+
+    @Override
+    public String toString() {
+        return "UserComment{" +
+                "comment_id=" + comment_id +
+                ", comment='" + comment + '\'' +
+                ", receiver_id=" + receiver_id +
+                ", photo='" + photo + '\'' +
+                ", sender_id=" + sender_id +
+                '}';
     }
 }

@@ -14,7 +14,9 @@ public class GoodComment {
     @GeneratedValue
     @NotNull
     private int comment_id;
+    @NotNull
     private String comment;
+    private String photo;
     @NotNull
     private int good_id;
     @NotNull
@@ -34,6 +36,14 @@ public class GoodComment {
 
     public String getComment() {
         return comment;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
     }
 
     public void setBuyer_id(int buyer_id) {

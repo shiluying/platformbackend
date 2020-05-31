@@ -7,7 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
 public interface UserCommentService {
-    ServerResponse findUserCommentById(Integer sender_id);
+    ServerResponse getUserCommentByReceiverId(Integer receiver_id);
 
     ServerResponse addUserComment(UserComment userComment);
 
