@@ -1,4 +1,4 @@
-package com.shiluying.platformbackend.controller;
+package com.shiluying.platformbackend.config;
 
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
