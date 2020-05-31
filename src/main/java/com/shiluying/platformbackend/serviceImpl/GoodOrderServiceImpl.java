@@ -30,15 +30,8 @@ public class GoodOrderServiceImpl implements GoodOrderService {
     }
 
     @Override
-    public ServerResponse addOrder(int buyer_id, int seller_id, int good_id, float price, String date, String place) {
+    public ServerResponse addOrder(GoodOrder goodOrder) {
         ServerResponse serverResponse;
-        GoodOrder goodOrder = new GoodOrder();
-        goodOrder.setBuyer_id(buyer_id);
-        goodOrder.setGood_id(good_id);
-        goodOrder.setSeller_id(seller_id);
-        goodOrder.setPrice(price);
-        goodOrder.setPlace(place);
-        goodOrder.setDate(date);
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置时间格式
         goodOrder.setTime(df.format(new Date()));
         goodOrder.setState(0);//state:0 未付款

@@ -18,6 +18,9 @@ public class User {
     @NotNull
     private String name;
     @NotNull
+    private String email;
+    private String info;
+    @NotNull
     private String pwd;
     @NotNull
     @Column(columnDefinition="int default 0",nullable=false)
@@ -43,6 +46,22 @@ public class User {
         this.name = name;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getInfo() {
+        return info;
+    }
+
+    public void setInfo(String info) {
+        this.info = info;
+    }
+
     public String getPwd() {
         return pwd;
     }
@@ -65,5 +84,18 @@ public class User {
 
     public void setExamine(int examine){
         this.examine=examine;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "user_id=" + user_id +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", info='" + info + '\'' +
+                ", pwd='" + pwd + '\'' +
+                ", type=" + type +
+                ", examine=" + examine +
+                '}';
     }
 }

@@ -19,6 +19,8 @@ public class GoodOrder {
     @NotNull
     private String time;
     @NotNull
+    private int num;
+    @NotNull
     private int buyer_id;
     @NotNull
     private int seller_id;
@@ -56,6 +58,14 @@ public class GoodOrder {
 
     public String getTime() {
         return time;
+    }
+
+    public int getNum() {
+        return num;
+    }
+
+    public void setNum(int num) {
+        this.num = num;
     }
 
     public void setOrder_id(int order_id) {

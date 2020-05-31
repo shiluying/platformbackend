@@ -12,9 +12,11 @@ public class Good {
     @Id
     @GeneratedValue
     private int good_id;
+    private String good_name;
     private int state;
     private String photo;
     private String good_describe;
+    private int num;
     private float price;
     private int user_id;
 
@@ -24,6 +26,14 @@ public class Good {
 
     public void setGood_id(int good_id) {
         this.good_id = good_id;
+    }
+
+    public String getGood_name() {
+        return good_name;
+    }
+
+    public void setGood_name(String good_name) {
+        this.good_name = good_name;
     }
 
     public int getState() {
@@ -50,6 +60,14 @@ public class Good {
         this.photo = photo;
     }
 
+    public int getNum() {
+        return num;
+    }
+
+    public void setNum(int num) {
+        this.num = num;
+    }
+
     public float getPrice() {
         return price;
     }
@@ -64,5 +82,19 @@ public class Good {
 
     public void setUser_id(int user_id) {
         this.user_id = user_id;
+    }
+
+    @Override
+    public String toString() {
+        return "Good{" +
+                "good_id=" + good_id +
+                ", good_name='" + good_name + '\'' +
+                ", state=" + state +
+                ", photo='" + photo + '\'' +
+                ", good_describe='" + good_describe + '\'' +
+                ", num=" + num +
+                ", price=" + price +
+                ", user_id=" + user_id +
+                '}';
     }
 }

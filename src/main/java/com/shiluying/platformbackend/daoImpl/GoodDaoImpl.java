@@ -47,13 +47,19 @@ public class GoodDaoImpl implements GoodDao {
     }
 
     @Override
+    public List<Good> findAllGoodName(String good_name) {
+        return goodRepository.findAllGoodName("%"+good_name+"%");
+    }
+
+    @Override
     public int changeGoodState(Integer id, Integer state) {
         return goodRepository.updateStateById(id,state);
     }
 
     @Override
-    public int changeGood(Integer id, Integer state,String photo, String good_describe, float price) {
-        return goodRepository.updateGood(id,state,photo,good_describe,price);
+    public int changeGood(Good good) {
+        return goodRepository.updateGood(good.getGood_id(),good.getGood_name(),good.getState(),good.getPhoto(),good.getGood_describe(),good.getNum(),good.getPrice()
+        );
     }
 
     @Override

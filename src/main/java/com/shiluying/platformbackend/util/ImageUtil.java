@@ -5,7 +5,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.*;
 
 public class ImageUtil {
-    public static String COMMODITY_IMG = "/commodities/",
+    public static String COMMODITY_IMG = "/commodities/",USERCOMMENT_IMG="/usercommnent/",
             ROOT_URL="http://localhost:8085/images", ROOT_PATH = "E://test";
 
     public static String uploadImg(MultipartFile file, String path) throws IOException {

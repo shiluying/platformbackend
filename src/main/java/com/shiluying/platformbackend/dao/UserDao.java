@@ -10,6 +10,6 @@ public interface UserDao {
     int changeUserType(Integer id, Integer type);
     int changeUserExamine(Integer id, Integer examine);
     User addUser(User user);
-    List<User> checkUser(Integer id,String pwd);
+    List<User> checkUser(String email,String pwd);
     void deleteUser(Integer id);
 }

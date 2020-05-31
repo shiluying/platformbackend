@@ -45,7 +45,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public List<User> checkUser(Integer id,String pwd) {
-        return userRepository.checkUser(id,pwd);
+    public List<User> checkUser(String email,String pwd) {
+        return userRepository.checkUser(email,pwd);
     }
 }

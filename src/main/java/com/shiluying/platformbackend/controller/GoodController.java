@@ -1,6 +1,7 @@
 package com.shiluying.platformbackend.controller;
 
 import com.shiluying.platformbackend.Response.ServerResponse;
+import com.shiluying.platformbackend.entity.Good;
 import com.shiluying.platformbackend.service.GoodService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,9 +16,9 @@ public class GoodController {
     private GoodService goodService;
 
 //    根据商品ID查找商品
-    @RequestMapping(value = "/findGoodById",method = RequestMethod.GET)
-    public ServerResponse findGoodById(@RequestParam("id") Integer id) {
-        return goodService.findGoodById(id);
+    @RequestMapping(value = "/findGoodByFilter",method = RequestMethod.GET)
+    public ServerResponse findGoodByFilter(@RequestParam("filter") String filter) {
+        return goodService.findGoodByFilter(filter);
     }
 
 //    查找所有商品
@@ -39,29 +40,22 @@ public class GoodController {
     }
 
 //    修改某商品的状态
-    @RequestMapping(value = "/changeGoodState",method = RequestMethod.GET)
-    public ServerResponse changeGoodState(@RequestParam("id") Integer id,
-                                          @RequestParam("state") Integer state) {
-        return goodService.changeGoodState(id,state);
+    @RequestMapping(value = "/changeGoodState",method = RequestMethod.PUT)
+    public ServerResponse changeGoodState(@RequestBody Good good) {
+        return goodService.changeGoodState(good.getGood_id(),good.getState());
     }
 
 //    添加商品
-    @RequestMapping(value = "/addGood",method = RequestMethod.GET)
-    public ServerResponse addGood( @RequestParam("good_describe") String good_describe,
-                                  @RequestParam("photo") String photo,
-                                  @RequestParam("price") float price,
-                                   @RequestParam("user_id") Integer user_id) {
-        return goodService.addGood(good_describe,photo,price,user_id);
+    @RequestMapping(value = "/addGood",method = RequestMethod.POST)
+    public ServerResponse addGood(@RequestBody Good good) {
+
+        return goodService.addGood(good);
     }
 
 //    修改商品
-    @RequestMapping(value = "/changeGood",method = RequestMethod.GET)
-    public ServerResponse changeGood(@RequestParam("id") Integer id,
-                                     @RequestParam("state") Integer state,
-                                     @RequestParam String photo,
-                                     @RequestParam String good_describe,
-                                     @RequestParam("price") float price) {
-        return goodService.changeGood(id,state,photo,good_describe,price);
+    @RequestMapping(value = "/changeGood",method = RequestMethod.PUT)
+    public ServerResponse changeGood(@RequestBody Good good) {
+        return goodService.changeGood(good);
     }
 
 //    上传图片
@@ -74,13 +68,14 @@ public class GoodController {
     }
 
 //    购买商品
-    @RequestMapping(value = "/buyGood",method = RequestMethod.GET)
-    public ServerResponse buyGood(@RequestParam("id") Integer id) {
-        return goodService.buyGood(id);
+    @RequestMapping(value = "/buyGood",method = RequestMethod.PUT)
+    public ServerResponse buyGood(@RequestBody Good good) {
+        System.out.println(good.toString());
+        return goodService.buyGood(good);
     }
 
 //    删除商品
-    @RequestMapping(value = "/deleteGood",method = RequestMethod.GET)
+    @RequestMapping(value = "/deleteGood",method = RequestMethod.DELETE)
     public ServerResponse deleteGood(@RequestParam("id") Integer id) {
         return goodService.deleteGood(id);
     }

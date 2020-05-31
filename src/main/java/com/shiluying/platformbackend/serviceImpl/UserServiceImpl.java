@@ -35,10 +35,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ServerResponse checkUser(Integer id, String pwd){
+    public ServerResponse checkUser(String email, String pwd){
 
         ServerResponse serverResponse;
-        List<User> users = userDao.checkUser(id,pwd);
+        List<User> users = userDao.checkUser(email,pwd);
         if(users.size()==0){
             serverResponse=ServerResponse.createByErrorMessage("用户不存在");
         }else{
@@ -68,7 +68,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ServerResponse changeUserExamineById(Integer id, Integer examine) {
+    public ServerResponse changeUserExamine(Integer id, Integer examine) {
         ServerResponse serverResponse;
 //        确认用户是否存在
         serverResponse=findUserById(id);
@@ -88,14 +88,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ServerResponse addUser(Integer id, String name, String pwd, Integer type, Integer examine) {
+    public ServerResponse addUser(User user) {
         ServerResponse serverResponse;
-        User user = new User();
-        user.setUser_id(id);
-        user.setName(name);
-        user.setPwd(pwd);
-        user.setType(type);
-        user.setExamine(examine);
         userDao.addUser(user);
         User user_info=userDao.addUser(user);
         if(user_info!=null) {
@@ -109,13 +103,24 @@ public class UserServiceImpl implements UserService {
     @Override
     public ServerResponse deleteUser(Integer id) {
         userDao.deleteUser(id);
-        ServerResponse serverResponse=findUserById(id);
-        if(serverResponse.getStatus()==500){// 用户不存在
-            serverResponse=ServerResponse.createBySuccessMessage("用户删除成功");
-        }else if(serverResponse.getStatus()==200) {// 用户存在
-            serverResponse=ServerResponse.createByErrorMessage("用户删除失败");
+        ServerResponse serverResponse;
+        serverResponse=ServerResponse.createBySuccessMessage("用户删除成功");
+        return serverResponse;
+    }
+
+    @Override
+    public ServerResponse checkAdminUser(String email, String pwd) {
+        ServerResponse serverResponse;
+        List<User> users = userDao.checkUser(email,pwd);
+        if(users.size()==0){
+            serverResponse=ServerResponse.createByErrorMessage("用户不存在");
         }else{
-            serverResponse=ServerResponse.createByError();
+            User user=users.get(0);
+            if(user.getExamine()==1||user.getType()==1){
+                serverResponse=ServerResponse.createBySuccess("用户存在",user);
+            }else{
+                serverResponse=ServerResponse.createByErrorMessage("用户不存在");
+            }
         }
         return serverResponse;
     }

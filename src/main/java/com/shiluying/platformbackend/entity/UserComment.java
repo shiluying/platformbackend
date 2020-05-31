@@ -16,24 +16,33 @@ public class UserComment {
     private int comment_id;
     private String comment;
     @NotNull
-    private int seller_id;
+    private int user_id;
+    private String photo;
     @NotNull
-    private int buyer_id;
+    private int sender_id;
 
-    public void setSeller_id(int seller_id) {
-        this.seller_id = seller_id;
+    public int getSender_id() {
+        return sender_id;
     }
 
-    public int getSeller_id() {
-        return seller_id;
+    public void setSender_id(int sender_id) {
+        this.sender_id = sender_id;
     }
 
-    public int getBuyer_id() {
-        return buyer_id;
+    public int getUser_id() {
+        return user_id;
     }
 
-    public void setBuyer_id(int buyer_id) {
-        this.buyer_id = buyer_id;
+    public void setUser_id(int user_id) {
+        this.user_id = user_id;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
+
+    public String getPhoto() {
+        return photo;
     }
 
     public void setComment_id(int comment_id) {

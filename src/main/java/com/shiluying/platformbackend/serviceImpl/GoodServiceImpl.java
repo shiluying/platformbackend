@@ -10,9 +10,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 @Service
 public class GoodServiceImpl implements GoodService {
@@ -32,6 +34,27 @@ public class GoodServiceImpl implements GoodService {
         return serverResponse;
     }
 
+    @Override
+    public ServerResponse findGoodByFilter(String filter) {
+        ServerResponse serverResponse;
+        List<Good> goodList=new ArrayList<Good>();
+        List<Good> goods;
+        if(isInteger(filter)){
+            goods=goodDao.findAllByUserId(Integer.valueOf(filter));
+            Good good=goodDao.findOne(Integer.valueOf(filter));
+            goodList.addAll(goods);
+            goodList.add(good);
+        }else{
+            goods=goodDao.findAllGoodName(filter);
+            goodList.addAll(goods);
+        }
+        serverResponse=ServerResponse.createBySuccess(goodList);
+        return serverResponse;
+    }
+    public static boolean isInteger(String str) {
+        Pattern pattern = Pattern.compile("^[-\\+]?[\\d]*$");
+        return pattern.matcher(str).matches();
+    }
     @Override
     public ServerResponse findAllGood() {
         ServerResponse serverResponse;
@@ -80,14 +103,14 @@ public class GoodServiceImpl implements GoodService {
     }
 
     @Override
-    public ServerResponse changeGood(Integer id, Integer state,String photo, String good_describe, float price) {
+    public ServerResponse changeGood(Good good) {
         ServerResponse serverResponse;
 //        确认商品是否存在
-        serverResponse=findGoodById(id);
+        serverResponse=findGoodById(good.getGood_id());
         if(serverResponse.getStatus()==500){// 商品不存在
             return serverResponse;
         }else if(serverResponse.getStatus()==200) {// 商品存在， 修改商品
-            int code= goodDao.changeGood(id,state,photo,good_describe,price);
+            int code= goodDao.changeGood(good);
             if(code==1){
                 serverResponse=ServerResponse.createBySuccessMessage("商品修改成功");
             }else{
@@ -100,13 +123,8 @@ public class GoodServiceImpl implements GoodService {
     }
 
     @Override
-    public ServerResponse addGood(String good_describe,String photo, float price, Integer user_id) {
+    public ServerResponse addGood(Good good) {
         ServerResponse serverResponse;
-        Good good=new Good();
-        good.setGood_describe(good_describe);
-        good.setPhoto(photo);
-        good.setPrice(price);
-        good.setUser_id(user_id);
         Good good_info=goodDao.addGood(good);
         if(good_info!=null) {
             serverResponse = ServerResponse.createBySuccess("商品添加成功", good_info);
@@ -138,19 +156,16 @@ public class GoodServiceImpl implements GoodService {
     }
 
     @Override
-    public ServerResponse buyGood(Integer id) {
+    public ServerResponse buyGood(Good good) {
         ServerResponse serverResponse;
-        Good good =goodDao.findOne(id);
-//        商品已被锁定，不能购买
-        if(good.getState()==2){
-            serverResponse=ServerResponse.createByErrorMessage("商品已被锁定，不能购买");
-        }else if(good.getState()==1){
-//            修改商品状态
-//            。。。。
-            serverResponse=ServerResponse.createBySuccess("商品锁定成功,请确认支付",good);
-        }else{
-            serverResponse=ServerResponse.createByError();
-        }
+        Good goodInfo =goodDao.findOne(good.getGood_id());
+        System.out.println(goodInfo.toString());
+        int num=goodInfo.getNum()-good.getNum();
+        System.out.println(num);
+        goodInfo.setNum(num);
+        System.out.println(goodInfo.toString());
+        goodInfo.setState(1);
+        serverResponse= changeGood(goodInfo);
         return serverResponse;
     }
 

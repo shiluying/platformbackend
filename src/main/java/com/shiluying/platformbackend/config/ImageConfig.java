@@ -10,5 +10,6 @@ public class ImageConfig implements WebMvcConfigurer {
 //      请求拦截
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/images/commodities/**").addResourceLocations("file:E:/test/commodities/");
+        registry.addResourceHandler("/images/usercomment/**").addResourceLocations("file:E:/test/usercomment/");
     }
 }
