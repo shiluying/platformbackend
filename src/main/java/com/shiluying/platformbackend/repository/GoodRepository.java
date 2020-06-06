@@ -22,10 +22,10 @@ public interface GoodRepository extends JpaRepository<Good, Integer> {
     int updateGood(Integer id,String good_name, Integer state,String photo, String good_describe,int num, float price);
 
     @Query(value = "select * from good where state= :state",nativeQuery = true)
-    List<Good> findAllByState(@Param("state") Integer state);
+    List<Good> findByState(Integer state);
 
     @Query(value = "select * from good where user_id= :user_id",nativeQuery = true)
-    List<Good> findAllByUserId(@Param("user_id") Integer user_id);
+    List<Good> findAllByUserId(Integer user_id);
 
     @Query(value = "select * from good where good_name like :good_name",nativeQuery = true)
     List<Good> findAllGoodName(@Param("good_name") String good_name);

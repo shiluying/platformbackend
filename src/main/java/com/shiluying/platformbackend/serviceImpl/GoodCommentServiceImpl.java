@@ -1,8 +1,8 @@
 package com.shiluying.platformbackend.serviceImpl;
 
 import com.shiluying.platformbackend.Response.ServerResponse;
-import com.shiluying.platformbackend.dao.GoodCommentDao;
 import com.shiluying.platformbackend.entity.GoodComment;
+import com.shiluying.platformbackend.repository.GoodCommentRespository;
 import com.shiluying.platformbackend.service.GoodCommentService;
 import com.shiluying.platformbackend.util.ImageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,12 +17,12 @@ import java.util.Map;
 @Service
 public class GoodCommentServiceImpl implements GoodCommentService {
     @Autowired
-    private GoodCommentDao goodCommentDao;
+    private GoodCommentRespository goodCommentRespository;
 
     @Override
     public ServerResponse findGoodCommentById(Integer good_id) {
         ServerResponse serverResponse;
-        List<GoodComment> goodComments=goodCommentDao.findCommentById(good_id);
+        List<GoodComment> goodComments=goodCommentRespository.findCommentById(good_id);
         serverResponse=ServerResponse.createBySuccess(goodComments);
         return serverResponse;
     }
@@ -30,7 +30,7 @@ public class GoodCommentServiceImpl implements GoodCommentService {
     @Override
     public ServerResponse addGoodComment(GoodComment goodComment) {
         ServerResponse serverResponse;
-        GoodComment goodCommentInfo = goodCommentDao.addGoodComment(goodComment);
+        GoodComment goodCommentInfo = goodCommentRespository.save(goodComment);
         if(goodCommentInfo!=null) {
             serverResponse = ServerResponse.createBySuccess("商品评论添加成功", goodCommentInfo);
         }else {

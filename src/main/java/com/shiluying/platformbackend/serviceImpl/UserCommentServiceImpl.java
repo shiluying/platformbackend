@@ -1,8 +1,8 @@
 package com.shiluying.platformbackend.serviceImpl;
 
 import com.shiluying.platformbackend.Response.ServerResponse;
-import com.shiluying.platformbackend.dao.UserCommentDao;
 import com.shiluying.platformbackend.entity.UserComment;
+import com.shiluying.platformbackend.repository.UserCommentRespository;
 import com.shiluying.platformbackend.service.UserCommentService;
 import com.shiluying.platformbackend.util.ImageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,12 +17,12 @@ import java.util.Map;
 @Service
 public class UserCommentServiceImpl implements UserCommentService {
     @Autowired
-    private UserCommentDao userCommentDao;
+    private UserCommentRespository userCommentRespository;
 
     @Override
     public ServerResponse getUserCommentByReceiverId(Integer receiver_id) {
         ServerResponse serverResponse;
-        List<UserComment> userComments=userCommentDao.getUserCommentByReceiverId(receiver_id);
+        List<UserComment> userComments=userCommentRespository.getUserCommentByReceiverId(receiver_id);
         serverResponse=ServerResponse.createBySuccess(userComments);
         return serverResponse;
     }
@@ -30,7 +30,7 @@ public class UserCommentServiceImpl implements UserCommentService {
     @Override
     public ServerResponse addUserComment(UserComment userComment) {
         ServerResponse serverResponse;
-        UserComment userCommentInfo = userCommentDao.addUserComment(userComment);
+        UserComment userCommentInfo = userCommentRespository.save(userComment);
         if(userCommentInfo!=null) {
             serverResponse = ServerResponse.createBySuccess("用户评论添加成功", userCommentInfo);
         }else {

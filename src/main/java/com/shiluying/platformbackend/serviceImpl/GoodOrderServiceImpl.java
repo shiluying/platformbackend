@@ -1,8 +1,8 @@
 package com.shiluying.platformbackend.serviceImpl;
 
 import com.shiluying.platformbackend.Response.ServerResponse;
-import com.shiluying.platformbackend.dao.GoodOrderDao;
 import com.shiluying.platformbackend.entity.GoodOrder;
+import com.shiluying.platformbackend.repository.GoodOrderRepository;
 import com.shiluying.platformbackend.service.GoodOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,18 +13,18 @@ import java.util.List;
 
 @Service
 public class GoodOrderServiceImpl implements GoodOrderService {
-
     @Autowired
-    private GoodOrderDao goodOrderDao;
+    private GoodOrderRepository goodOrderRepository;
+
     @Override
     public GoodOrder findOne(int order_id){
-        return goodOrderDao.findOne(order_id);
+        return goodOrderRepository.getOne(order_id);
     }
 
     @Override
     public ServerResponse getGoodOrderByUserId(int user_id) {
         ServerResponse serverResponse;
-        List<GoodOrder> goodOrders=goodOrderDao.findGoodOrderByUserId(user_id);
+        List<GoodOrder> goodOrders=goodOrderRepository.findGoodOrderById(user_id);
         serverResponse=ServerResponse.createBySuccess(goodOrders);
         return serverResponse;
     }
@@ -36,7 +36,7 @@ public class GoodOrderServiceImpl implements GoodOrderService {
         goodOrder.setTime(df.format(new Date()));
         goodOrder.setState(0);//state:0 未付款
 //            创建订单
-        GoodOrder goodOrderInfo=goodOrderDao.addOrder(goodOrder);
+        GoodOrder goodOrderInfo=goodOrderRepository.save(goodOrder);
         if(goodOrderInfo!=null) {
             serverResponse = ServerResponse.createBySuccess("订单创建成功", goodOrderInfo);
         }else {
@@ -53,7 +53,7 @@ public class GoodOrderServiceImpl implements GoodOrderService {
         if(serverResponse.getStatus()==500){// 订单不存在
             return serverResponse;
         }else if(serverResponse.getStatus()==200) {// 订单存在， 修改订单状态
-            int code= goodOrderDao.changeOrderState(order_id,state);
+            int code= goodOrderRepository.updateStateById(order_id,state);
             if(code==1){
                 serverResponse=ServerResponse.createBySuccess("订单状态修改成功",serverResponse.getData());
             }else{
@@ -69,7 +69,7 @@ public class GoodOrderServiceImpl implements GoodOrderService {
     public ServerResponse cancelOrder(int order_id) {
         ServerResponse serverResponse;
         GoodOrder goodOrder= findOne(order_id);
-        goodOrderDao.cancelOrder(goodOrder);
+        goodOrderRepository.delete(goodOrder);
         if(goodOrder!=null){
             serverResponse=ServerResponse.createBySuccess("订单取消成功");
         }else{

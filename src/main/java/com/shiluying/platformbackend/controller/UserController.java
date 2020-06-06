@@ -6,8 +6,6 @@ import com.shiluying.platformbackend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-
 @RestController
 public class UserController {
     @Autowired
@@ -57,7 +55,6 @@ public class UserController {
     //删除用户
     @RequestMapping(value = "/deleteUser",method = RequestMethod.DELETE)
     public ServerResponse deleteUser(@RequestParam("id") Integer id) {
-        System.out.println(id);
         return userService.deleteUser(id);
     }
 }

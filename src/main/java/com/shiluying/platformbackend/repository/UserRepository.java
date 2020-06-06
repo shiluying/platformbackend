@@ -21,7 +21,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Query(value = "update user set examine= :examine where user_id= :id",nativeQuery = true)
     int updateExamineById(@Param("id") Integer id,@Param("examine") Integer examine);
 
-    @Query(value = "select * from user where email= :email and pwd= :pwd",nativeQuery = true)
-    List<User> checkUser(@Param("email") String email,@Param("pwd") String pwd);
+//    @Query(value = "select * from user where email= :email and pwd= :pwd",nativeQuery = true)
+    List<User> findByEmailAndPwd(String email,String pwd);
 
 }

@@ -1,8 +1,8 @@
 package com.shiluying.platformbackend.serviceImpl;
 
 import com.shiluying.platformbackend.Response.ServerResponse;
-import com.shiluying.platformbackend.dao.GoodDao;
 import com.shiluying.platformbackend.entity.Good;
+import com.shiluying.platformbackend.repository.GoodRepository;
 import com.shiluying.platformbackend.service.GoodService;
 import com.shiluying.platformbackend.util.ImageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,12 +19,12 @@ import java.util.regex.Pattern;
 @Service
 public class GoodServiceImpl implements GoodService {
     @Autowired
-    private GoodDao goodDao;
+    private GoodRepository goodRepository;
 
     @Override
     public ServerResponse findGoodById(Integer id) {
         ServerResponse serverResponse;
-        Good good=goodDao.findOne(id);
+        Good good=goodRepository.getOne(id);
         if(good!=null){
             serverResponse=ServerResponse.createBySuccess("商品存在",good);
 
@@ -40,12 +40,12 @@ public class GoodServiceImpl implements GoodService {
         List<Good> goodList=new ArrayList<Good>();
         List<Good> goods;
         if(isInteger(filter)){
-            goods=goodDao.findAllByUserId(Integer.valueOf(filter));
-            Good good=goodDao.findOne(Integer.valueOf(filter));
+            goods=goodRepository.findAllByUserId(Integer.valueOf(filter));
+            Good good=goodRepository.getOne(Integer.valueOf(filter));
             goodList.addAll(goods);
             goodList.add(good);
         }else{
-            goods=goodDao.findAllGoodName(filter);
+            goods=goodRepository.findAllGoodName(filter);
             goodList.addAll(goods);
         }
         serverResponse=ServerResponse.createBySuccess(goodList);
@@ -58,7 +58,7 @@ public class GoodServiceImpl implements GoodService {
     @Override
     public ServerResponse findAllGood() {
         ServerResponse serverResponse;
-        List<Good> goods=goodDao.findAll();
+        List<Good> goods=goodRepository.findAll();
         serverResponse=ServerResponse.createBySuccess(goods);
         return serverResponse;
     }
@@ -66,7 +66,7 @@ public class GoodServiceImpl implements GoodService {
     @Override
     public ServerResponse findGoodByState(Integer state) {
         ServerResponse serverResponse;
-        List<Good> goodList =goodDao.findAllByState(state);
+        List<Good> goodList =goodRepository.findByState(state);
         serverResponse=ServerResponse.createBySuccess(goodList);
         return serverResponse;
     }
@@ -88,7 +88,7 @@ public class GoodServiceImpl implements GoodService {
                 }
             }
             else{
-                int code= goodDao.changeGoodState(id,state);
+                int code= goodRepository.updateStateById(id,state);
                 if(code==1){
                     serverResponse=ServerResponse.createBySuccess("商品状态修改成功",serverResponse.getData());
                 }else{
@@ -110,7 +110,7 @@ public class GoodServiceImpl implements GoodService {
         if(serverResponse.getStatus()==500){// 商品不存在
             return serverResponse;
         }else if(serverResponse.getStatus()==200) {// 商品存在， 修改商品
-            int code= goodDao.changeGood(good);
+            int code= goodRepository.updateGood(good.getGood_id(),good.getGood_name(),good.getState(),good.getPhoto(),good.getGood_describe(),good.getNum(),good.getPrice());
             if(code==1){
                 serverResponse=ServerResponse.createBySuccessMessage("商品修改成功");
             }else{
@@ -125,7 +125,7 @@ public class GoodServiceImpl implements GoodService {
     @Override
     public ServerResponse addGood(Good good) {
         ServerResponse serverResponse;
-        Good good_info=goodDao.addGood(good);
+        Good good_info=goodRepository.save(good);
         if(good_info!=null) {
             serverResponse = ServerResponse.createBySuccess("商品添加成功", good_info);
         }else {
@@ -137,7 +137,7 @@ public class GoodServiceImpl implements GoodService {
     @Override
     public ServerResponse findGoodByUserId(Integer user_id) {
         ServerResponse serverResponse;
-        List<Good> goodList =goodDao.findAllByUserId(user_id);
+        List<Good> goodList =goodRepository.findAllByUserId(user_id);
         serverResponse=ServerResponse.createBySuccess(goodList);
         return serverResponse;
     }
@@ -158,7 +158,7 @@ public class GoodServiceImpl implements GoodService {
     @Override
     public ServerResponse buyGood(Good good) {
         ServerResponse serverResponse;
-        Good goodInfo =goodDao.findOne(good.getGood_id());
+        Good goodInfo =goodRepository.getOne(good.getGood_id());
         System.out.println(goodInfo.toString());
         int num=goodInfo.getNum()-good.getNum();
         System.out.println(num);
@@ -171,7 +171,7 @@ public class GoodServiceImpl implements GoodService {
 
     @Override
     public ServerResponse deleteGood(Integer id) {
-        goodDao.deleteGood(id);
+        goodRepository.deleteById(id);
         ServerResponse serverResponse=findGoodById(id);
         if(serverResponse.getStatus()==500){// 商品不存在
             serverResponse=ServerResponse.createBySuccessMessage("商品删除成功");
